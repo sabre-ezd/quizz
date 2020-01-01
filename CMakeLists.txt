@@ -3,4 +3,4 @@ project(quizz)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(quizz main.cpp)
+add_executable(quizz main.cpp struct.h)
