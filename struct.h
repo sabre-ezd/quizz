@@ -13,12 +13,13 @@ using namespace std;
 struct zadanie
 {
     string pytanie;
-    vector<string> odpowiedzi;
+    string odpowiedzi[4];
     char prawidlowa;
 };
 
 // Declarations
 void main_menu();
-void start_test();
+
+bool input_odpowiedz(zadanie &x);
 
 #endif //QUIZZ_STRUCT_H

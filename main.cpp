@@ -1,3 +1,5 @@
+#include "test.cpp"
+#include "base.cpp"
 #include "struct.h"
 using namespace std;
 
