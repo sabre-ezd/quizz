@@ -37,3 +37,11 @@ void start_test()
         cout<<"wczytano do pamieci."<<endl;
     }
 }
+
+void display_zadanie(zadanie x)
+{
+    cout<<x.pytanie<<endl;
+    for (auto &i : x.odpowiedzi){
+        cout<<
+    }
+}

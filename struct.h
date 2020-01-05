@@ -10,12 +10,17 @@
 #include <vector>
 #include <sstream>
 
+struct odpowiedz
+{
+    string tresc;
+    bool prawidlowa;
+};
+
 using namespace std;
 struct zadanie
 {
     string pytanie;
-    string odpowiedzi[4];
-    char prawidlowa;
+    odpowiedz odpowiedzi[4];
 };
 
 // Declarations
@@ -23,5 +28,7 @@ void main_menu();
 void base_menu();
 bool input_odpowiedz(zadanie &x);
 void add_question(fstream &baza);
+void display_zadanie(zadanie x);
+
 
 #endif //QUIZZ_STRUCT_H

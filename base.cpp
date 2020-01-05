@@ -10,7 +10,7 @@ void add_question(fstream &baza)
     cin.ignore(1000, '\n');
     for (int i=0; i<4; i++) {
         cout<<"Odpowiedz "<<i+1<<": ";
-        getline(cin, temp.odpowiedzi[i]);
+        getline(cin, temp.odpowiedzi[i].tresc);
     }
     while(input_odpowiedz(temp)) {
 
@@ -19,24 +19,22 @@ void add_question(fstream &baza)
     baza.seekp(0, ios::end);
     baza<<temp.pytanie<<";";
     for (const auto& i : temp.odpowiedzi) {
-        baza<<i<<";";
+        if (i.prawidlowa)
+            baza<<"!"<<i.tresc;
+        else baza<<i.tresc;
     }
-    baza<<temp.prawidlowa<<";"<<endl;
     cout<<"Pytanie dodane."<<endl;
 }
 
 bool input_odpowiedz(zadanie &x)
 {
-    cout << "Prawidlowa odpowiedz (A,B,C,D)";
-    cin >> x.prawidlowa;
-    if (x.prawidlowa == 'A' || x.prawidlowa == 'B' || x.prawidlowa == 'C' || x.prawidlowa == 'D')
-        return true;
-    else if (x.prawidlowa == 'a' || x.prawidlowa == 'b' || x.prawidlowa == 'c' || x.prawidlowa == 'd') {
-        x.prawidlowa-=32;
-        return true;
+    int prawidlowa;
+    cout << "Prawidlowa odpowiedz (1,2,3,4)";
+    while(cin >> prawidlowa) {
+        if (x.odpowiedzi[prawidlowa].prawidlowa)
+            return true;
+        else cout << "Nieprawidlowy znak - dozwolone tylko 1, 2, 3, 4: ";
     }
-    else cout<<"Nieprawidlowy znak - dozwolone tylko A, B, C, D"<<endl;
-    return false;
 }
 
 void base_menu()

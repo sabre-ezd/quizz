@@ -4,6 +4,7 @@
 using namespace std;
 
 int main() {
+    cout<<sizeof(zadanie)<<endl;
     main_menu();
     return 0;
 }
