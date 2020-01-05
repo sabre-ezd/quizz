@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <sstream>
 
 using namespace std;
 struct zadanie
@@ -19,7 +20,8 @@ struct zadanie
 
 // Declarations
 void main_menu();
-
+void base_menu();
 bool input_odpowiedz(zadanie &x);
+void add_question(fstream &baza);
 
 #endif //QUIZZ_STRUCT_H

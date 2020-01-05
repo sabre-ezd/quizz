@@ -1,6 +1,6 @@
+#include "struct.h"
 #include "test.cpp"
 #include "base.cpp"
-#include "struct.h"
 using namespace std;
 
 int main() {
@@ -22,6 +22,7 @@ void main_menu() {
                 start_test();
                 break;
             case '2':
+                base_menu();
                 break;
             case 'q':
             case 'Q':

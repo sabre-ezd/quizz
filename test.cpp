@@ -24,6 +24,16 @@ void start_test()
     cout<<"znaleziono "<<total<<" pytan."<<endl;
     baza.seekg(0);
     baza.clear();
+    zadanie zad_temp;
     cout<<"Ladowanie pytan do pamieci...";
-    while (getline(baza, temp));
+    while (getline(baza, temp)) {
+        istringstream iss(temp);
+        getline(iss,zad_temp.pytanie,';');
+        for (auto & i : zad_temp.odpowiedzi)
+            getline(iss,i,';');
+        iss.get(&zad_temp.prawidlowa, 2, ';');
+        cout<<"Wczytano pytanie z pliku...";
+        tempbaza.push_back(zad_temp);
+        cout<<"wczytano do pamieci."<<endl;
+    }
 }
