@@ -30,8 +30,7 @@ void start_test()
         istringstream iss(temp);
         getline(iss,zad_temp.pytanie,';');
         for (auto & i : zad_temp.odpowiedzi)
-            getline(iss,i,';');
-        iss.get(&zad_temp.prawidlowa, 2, ';');
+            getline(iss, i.tresc, ';');
         cout<<"Wczytano pytanie z pliku...";
         tempbaza.push_back(zad_temp);
         cout<<"wczytano do pamieci."<<endl;

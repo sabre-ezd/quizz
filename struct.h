@@ -9,6 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+using namespace std;
 
 struct odpowiedz
 {
@@ -16,7 +17,6 @@ struct odpowiedz
     bool prawidlowa;
 };
 
-using namespace std;
 struct zadanie
 {
     string pytanie;
@@ -26,7 +26,9 @@ struct zadanie
 // Declarations
 void main_menu();
 void base_menu();
-bool input_odpowiedz(zadanie &x);
+void start_test();
+void input_odpowiedz(zadanie &x);
+bool input_prawidlowa(zadanie &x);
 void add_question(fstream &baza);
 void display_zadanie(zadanie x);
 

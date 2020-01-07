@@ -8,31 +8,42 @@ void add_question(fstream &baza)
         <<"Tresc pytania: ";
     cin>>temp.pytanie;
     cin.ignore(1000, '\n');
-    for (int i=0; i<4; i++) {
-        cout<<"Odpowiedz "<<i+1<<": ";
-        getline(cin, temp.odpowiedzi[i].tresc);
-    }
-    while(input_odpowiedz(temp)) {
-
-    }
+    input_odpowiedz(temp);
+    input_prawidlowa(temp);
     cout<<"Dodawanie pytania do bazy...";
     baza.seekp(0, ios::end);
     baza<<temp.pytanie<<";";
     for (const auto& i : temp.odpowiedzi) {
         if (i.prawidlowa)
-            baza<<"!"<<i.tresc;
+            baza<<"~"<<i.tresc;
         else baza<<i.tresc;
     }
     cout<<"Pytanie dodane."<<endl;
 }
 
-bool input_odpowiedz(zadanie &x)
+void input_odpowiedz(zadanie &x)
+{
+    for (int i=0; i<4; i++) {
+        cout<<"Odpowiedz "<<i+1<<": ";
+        getline(cin, x.odpowiedzi[i].tresc);
+    }
+}
+
+void input_odpowiedz(zadanie &x, int i)
+{
+        cout<<"Odpowiedz "<<i+1<<": ";
+        getline(cin, x.odpowiedzi[i].tresc);
+}
+
+bool input_prawidlowa(zadanie &x)
 {
     int prawidlowa;
     cout << "Prawidlowa odpowiedz (1,2,3,4)";
     while(cin >> prawidlowa) {
-        if (x.odpowiedzi[prawidlowa].prawidlowa)
+        if (prawidlowa > 0 && prawidlowa < 5) {
+            x.odpowiedzi[prawidlowa].prawidlowa = true;
             return true;
+        }
         else cout << "Nieprawidlowy znak - dozwolone tylko 1, 2, 3, 4: ";
     }
 }
@@ -47,12 +58,16 @@ void base_menu()
     }
     cout<<"zakonczono."<<endl;
     while(cout<<"1 - Dodaj pytanie"<<endl
-              <<"0 - Powrot"<<endl
-              <<"Wybor: "){
+            <<"2 - Edytuj pytanie"
+            <<"0 - Powrot"<<endl
+            <<"Wybor: "){
         int wybor; cin>>wybor;
         switch (wybor){
             case 1:
                 add_question(baza);
+                break;
+            case 2:
+                // TODO: Edit questions
                 break;
             case 0:
                 cout<<"Zamykanie bazy...";
