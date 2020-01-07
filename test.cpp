@@ -60,7 +60,7 @@ void display_zadanie(const zadanie& x)
     }
 }
 
-int input_zadanie(zadanie& x)
+void input_zadanie(zadanie& x)
 {
     char odpowiedz;
     cout<<"Odpowiedz: "; cin>>odpowiedz;
