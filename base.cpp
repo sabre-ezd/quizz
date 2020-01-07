@@ -46,6 +46,7 @@ bool input_prawidlowa(zadanie &x)
         }
         else cout << "Nieprawidlowy znak - dozwolone tylko 1, 2, 3, 4: ";
     }
+    return false;
 }
 
 void base_menu()

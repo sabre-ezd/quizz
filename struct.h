@@ -27,10 +27,13 @@ struct zadanie
 void main_menu();
 void base_menu();
 void start_test();
+void maszyna_losujaca(vector<zadanie> &test);
 void input_odpowiedz(zadanie &x);
 bool input_prawidlowa(zadanie &x);
 void add_question(fstream &baza);
-void display_zadanie(zadanie x);
+void display_zadanie(const zadanie& x);
+int input_zadanie(char odpowiedz, zadanie& x);
+int score_zadanie(zadanie& x, char odpowiedz);
 
 
 #endif //QUIZZ_STRUCT_H
