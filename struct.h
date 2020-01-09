@@ -9,6 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <random>
 using namespace std;
 
 struct odpowiedz

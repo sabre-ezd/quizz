@@ -22,7 +22,7 @@ void maszyna_losujaca(vector<zadanie> &test)
     cout<<"Podaj liczbe pytan: ";
     int pytania; cin>>pytania;
     cout<<"Ladowanie bazy... ";
-    int total=0;
+    unsigned int total=0;
     vector<zadanie> tempbaza;
     string temp;
     while (getline(baza, temp)) {
@@ -49,6 +49,12 @@ void maszyna_losujaca(vector<zadanie> &test)
         tempbaza.push_back(zad_temp);
         cout<<"wczytano do pamieci."<<endl;
     }
+    if (pytania == tempbaza.size())
+        cout<<"Wszystkie pytania zaladowano"<<endl;
+    for (int i=0; i<pytania; i++){
+        test.push_back(tempbaza[random_device().operator()()%total]);
+    }
+    // TODO: zwolnic pamiec ze wszystkimi pytaniami
 }
 
 void display_zadanie(const zadanie& x)
