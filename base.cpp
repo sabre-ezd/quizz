@@ -6,17 +6,17 @@ void add_question(fstream &baza)
     zadanie temp;
     cout<<"Dodawanie pytania do bazy."<<endl
         <<"Tresc pytania: ";
-    cin>>temp.pytanie;
     cin.ignore(1000, '\n');
+    getline(cin, temp.pytanie);
     input_odpowiedz(temp);
     input_prawidlowa(temp);
     cout<<"Dodawanie pytania do bazy...";
     baza.seekp(0, ios::end);
     baza<<temp.pytanie<<";";
     for (const auto& i : temp.odpowiedzi) {
-        if (i.prawidlowa)
-            baza<<"~"<<i.tresc;
-        else baza<<i.tresc;
+        if (i.prawidlowa == true)
+            baza<<"~";
+        baza<<i.tresc<<";";
     }
     cout<<"Pytanie dodane."<<endl;
 }
@@ -41,7 +41,7 @@ bool input_prawidlowa(zadanie &x)
     cout << "Prawidlowa odpowiedz (1,2,3,4)";
     while(cin >> prawidlowa) {
         if (prawidlowa > 0 && prawidlowa < 5) {
-            x.odpowiedzi[prawidlowa].prawidlowa = true;
+            x.odpowiedzi[prawidlowa-1].prawidlowa = true;
             return true;
         }
         else cout << "Nieprawidlowy znak - dozwolone tylko 1, 2, 3, 4: ";
@@ -59,7 +59,7 @@ void base_menu()
     }
     cout<<"zakonczono."<<endl;
     while(cout<<"1 - Dodaj pytanie"<<endl
-            <<"2 - Edytuj pytanie"
+            <<"2 - Edytuj pytanie"<<endl
             <<"0 - Powrot"<<endl
             <<"Wybor: "){
         int wybor; cin>>wybor;

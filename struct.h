@@ -9,7 +9,8 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
-#include <random>
+#include <cstdlib>
+#include <filesystem>
 using namespace std;
 
 struct odpowiedz
@@ -33,7 +34,7 @@ void input_odpowiedz(zadanie &x);
 bool input_prawidlowa(zadanie &x);
 void add_question(fstream &baza);
 void display_zadanie(const zadanie& x);
-int input_zadanie(char odpowiedz, zadanie& x);
+int input_zadanie(zadanie& x);
 int score_zadanie(zadanie& x, char odpowiedz);
 
 

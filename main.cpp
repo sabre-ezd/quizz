@@ -5,6 +5,13 @@ using namespace std;
 
 int main() {
     cout<<sizeof(zadanie)<<endl;
+    if (!filesystem::exists("baza.txt")){
+        cout<<"Nie znaleziono bazy. Tworzenie...";
+        fstream plik;
+        plik.open("baza.txt", ios::out);
+        plik.close();
+        cout<<"zakonczono."<<endl;
+    }
     main_menu();
     return 0;
 }

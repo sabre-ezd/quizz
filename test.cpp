@@ -7,11 +7,17 @@ void start_test()
     maszyna_losujaca(test);
     vector<zadanie> prawidlowe;
     vector<zadanie> bledne;
-
+    for (auto& i:test){
+        display_zadanie(i);
+        if (i.odpowiedzi[input_zadanie(i)].prawidlowa)
+            prawidlowe.push_back(i);
+        else bledne.push_back(i);
+    }
 }
 
 void maszyna_losujaca(vector<zadanie> &test)
 {
+    srand(time(NULL));
     cout<<"Otwieranie bazy... ";
     fstream baza ("baza.txt", ios::in);
     if (baza.fail())  {
@@ -51,10 +57,14 @@ void maszyna_losujaca(vector<zadanie> &test)
     }
     if (pytania == tempbaza.size())
         cout<<"Wszystkie pytania zaladowano"<<endl;
+    cout<<"Losowanie..."<<endl;
     for (int i=0; i<pytania; i++){
-        test.push_back(tempbaza[random_device().operator()()%total]);
+        test.push_back(tempbaza[rand()%total]);
+        cout<<"\33[2K"<<'\r'<<i+1<<"/"<<pytania;
     }
     // TODO: zwolnic pamiec ze wszystkimi pytaniami
+    vector<zadanie>().swap(tempbaza);
+
 }
 
 void display_zadanie(const zadanie& x)
@@ -66,11 +76,11 @@ void display_zadanie(const zadanie& x)
     }
 }
 
-void input_zadanie(zadanie& x)
+int input_zadanie(zadanie& x)
 {
-    char odpowiedz;
+    char odpowiedz = 0;
     cout<<"Odpowiedz: "; cin>>odpowiedz;
-    score_zadanie(x,odpowiedz);
+    return score_zadanie(x,odpowiedz);
 }
 
 int score_zadanie(zadanie& x, char odpowiedz)
