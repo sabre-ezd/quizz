@@ -30,8 +30,8 @@ void start_test()
 
 void maszyna_losujaca(vector<zadanie> &test)
 {
-    srand(time(nullptr));
-    int seed = 0;
+    srand(time(NULL));
+    int seed = time(NULL);
     cout<<"Otwieranie bazy... ";
     fstream baza ("baza.txt", ios::in);
     if (baza.fail())  {
@@ -74,8 +74,10 @@ void maszyna_losujaca(vector<zadanie> &test)
         cout<<"Wszystkie pytania zaladowano"<<endl;
     cout<<"Losowanie..."<<endl;
     for (int i=0; i<pytania; i++){
-        test.push_back(tempbaza[rand()%pytania]);
-        cout<<"\33[2K"<<'\r'<<i+1<<"/"<<pytania<<flush;
+        int randomed = rand()%pytania;
+        test.push_back(tempbaza[randomed]);
+        tempbaza.erase(tempbaza.begin()+randomed);
+        cout<<"\rProgress: "<<i+1<<"/"<<pytania<<flush;
     }
     // TODO: zwolnic pamiec ze wszystkimi pytaniami
     vector<zadanie>().swap(tempbaza);

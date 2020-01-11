@@ -17,7 +17,7 @@ using namespace std;
 struct odpowiedz
 {
     string tresc;
-    bool prawidlowa;
+    bool prawidlowa= false;
 };
 
 

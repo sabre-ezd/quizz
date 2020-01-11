@@ -12,12 +12,13 @@ void add_question(fstream &baza)
     input_prawidlowa(temp);
     cout<<"Dodawanie pytania do bazy...";
     baza.seekp(0, ios::end);
-    baza<<temp.pytanie<<";";
+    baza<<endl<<temp.pytanie<<";";
     for (const auto& i : temp.odpowiedzi) {
         if (i.prawidlowa)
             baza<<"~";
         baza<<i.tresc<<";";
     }
+
     cout<<"Pytanie dodane."<<endl;
 }
 
