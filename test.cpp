@@ -10,15 +10,17 @@ void start_test()
     klucz_odpowiedzi temp = {};
     for (auto& i:test){
         display_zadanie(i);
-        int i_odpowiedz = input_zadanie(i);
         temp.pytanie = i;
         temp.input = input_zadanie(i);
-        if (i.odpowiedzi[i_odpowiedz].prawidlowa)
-            prawidlowe.push_back(temp);
+        if (i.odpowiedzi[temp.input].prawidlowa)
+        {   cout<<"dobrze"<<endl;
+            prawidlowe.push_back(temp);}
         else
-            bledne.push_back(temp);
+        {cout<<"zle"<<endl;
+            bledne.push_back(temp);}
     }
-    test_summary(test, prawidlowe, bledne);
+//1
+// test_summary(test, prawidlowe, bledne);
 }
 
 //void test_summary(vector<zadanie> test, vector<klucz_odpowiedzi> prawidlowe, vector<klucz_odpowiedzi> bledne)
@@ -29,6 +31,7 @@ void start_test()
 void maszyna_losujaca(vector<zadanie> &test)
 {
     srand(time(nullptr));
+    int seed = 0;
     cout<<"Otwieranie bazy... ";
     fstream baza ("baza.txt", ios::in);
     if (baza.fail())  {
@@ -47,7 +50,7 @@ void maszyna_losujaca(vector<zadanie> &test)
             break;
         total++;
     }
-    cout<<"znaleziono "<<total<<" pytan."<<endl;
+    cout<<"znaleziono "<<total+1<<" pytan."<<endl;
     baza.seekg(0);
     baza.clear();
     zadanie zad_temp;
@@ -63,6 +66,7 @@ void maszyna_losujaca(vector<zadanie> &test)
             }
         }
         cout<<"Wczytano pytanie z pliku...";
+        shuffle(begin(zad_temp.odpowiedzi), end(zad_temp.odpowiedzi), default_random_engine(seed));
         tempbaza.push_back(zad_temp);
         cout<<"wczytano do pamieci."<<endl;
     }
@@ -77,6 +81,7 @@ void maszyna_losujaca(vector<zadanie> &test)
     vector<zadanie>().swap(tempbaza);
 
 }
+
 
 void display_zadanie(const zadanie& x)
 {

@@ -11,6 +11,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <filesystem>
+#include <random>
 using namespace std;
 
 struct odpowiedz
@@ -23,7 +24,7 @@ struct odpowiedz
 struct zadanie
 {
     string pytanie;
-    odpowiedz odpowiedzi[4];
+    array<odpowiedz, 4> odpowiedzi;
 };
 
 struct klucz_odpowiedzi
