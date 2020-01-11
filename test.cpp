@@ -5,19 +5,30 @@ void start_test()
 {
     vector<zadanie> test;
     maszyna_losujaca(test);
-    vector<zadanie> prawidlowe;
-    vector<zadanie> bledne;
+    vector<klucz_odpowiedzi> prawidlowe;
+    vector<klucz_odpowiedzi> bledne;
+    klucz_odpowiedzi temp = {};
     for (auto& i:test){
         display_zadanie(i);
-        if (i.odpowiedzi[input_zadanie(i)].prawidlowa)
-            prawidlowe.push_back(i);
-        else bledne.push_back(i);
+        int i_odpowiedz = input_zadanie(i);
+        temp.pytanie = i;
+        temp.input = input_zadanie(i);
+        if (i.odpowiedzi[i_odpowiedz].prawidlowa)
+            prawidlowe.push_back(temp);
+        else
+            bledne.push_back(temp);
     }
+    test_summary(test, prawidlowe, bledne);
 }
+
+//void test_summary(vector<zadanie> test, vector<klucz_odpowiedzi> prawidlowe, vector<klucz_odpowiedzi> bledne)
+//{
+//
+//}
 
 void maszyna_losujaca(vector<zadanie> &test)
 {
-    srand(time(NULL));
+    srand(time(nullptr));
     cout<<"Otwieranie bazy... ";
     fstream baza ("baza.txt", ios::in);
     if (baza.fail())  {
@@ -59,8 +70,8 @@ void maszyna_losujaca(vector<zadanie> &test)
         cout<<"Wszystkie pytania zaladowano"<<endl;
     cout<<"Losowanie..."<<endl;
     for (int i=0; i<pytania; i++){
-        test.push_back(tempbaza[rand()%total]);
-        cout<<"\33[2K"<<'\r'<<i+1<<"/"<<pytania;
+        test.push_back(tempbaza[rand()%pytania]);
+        cout<<"\33[2K"<<'\r'<<i+1<<"/"<<pytania<<flush;
     }
     // TODO: zwolnic pamiec ze wszystkimi pytaniami
     vector<zadanie>().swap(tempbaza);
@@ -70,9 +81,9 @@ void maszyna_losujaca(vector<zadanie> &test)
 void display_zadanie(const zadanie& x)
 {
     const char odpowiedzi[4] = {'A', 'B', 'C', 'D'};
-    cout<<x.pytanie<<endl;
+    cout<<endl<<x.pytanie<<endl;
     for (int i=0; i<4; i++){
-        cout<<odpowiedzi[i]<<" - "<<x.odpowiedzi->tresc[i];
+        cout<<odpowiedzi[i]<<" - "<<x.odpowiedzi[i].tresc<<endl;
     }
 }
 
@@ -107,5 +118,4 @@ int score_zadanie(zadanie& x, char odpowiedz)
             break;
     }
     return wynik;
-
 }

@@ -14,7 +14,7 @@ void add_question(fstream &baza)
     baza.seekp(0, ios::end);
     baza<<temp.pytanie<<";";
     for (const auto& i : temp.odpowiedzi) {
-        if (i.prawidlowa == true)
+        if (i.prawidlowa)
             baza<<"~";
         baza<<i.tresc<<";";
     }

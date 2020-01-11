@@ -19,10 +19,17 @@ struct odpowiedz
     bool prawidlowa;
 };
 
+
 struct zadanie
 {
     string pytanie;
     odpowiedz odpowiedzi[4];
+};
+
+struct klucz_odpowiedzi
+{
+    zadanie pytanie;
+    int input{};
 };
 
 // Declarations
@@ -36,6 +43,7 @@ void add_question(fstream &baza);
 void display_zadanie(const zadanie& x);
 int input_zadanie(zadanie& x);
 int score_zadanie(zadanie& x, char odpowiedz);
+void test_summary(vector<zadanie> test, vector<klucz_odpowiedzi> prawidlowe, vector<klucz_odpowiedzi> bledne);
 
 
 #endif //QUIZZ_STRUCT_H
