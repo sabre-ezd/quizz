@@ -1,55 +1,6 @@
 #include "struct.h"
 using namespace std;
 
-void add_question(fstream &baza)
-{
-    zadanie temp;
-    cout<<"Dodawanie pytania do bazy."<<endl
-        <<"Tresc pytania: ";
-    cin.ignore(1000, '\n');
-    getline(cin, temp.pytanie);
-    input_odpowiedz(temp);
-    input_prawidlowa(temp);
-    cout<<"Dodawanie pytania do bazy...";
-    baza.seekp(0, ios::end);
-    baza<<endl<<temp.pytanie<<";";
-    for (const auto& i : temp.odpowiedzi) {
-        if (i.prawidlowa)
-            baza<<"~";
-        baza<<i.tresc<<";";
-    }
-
-    cout<<"Pytanie dodane."<<endl;
-}
-
-void input_odpowiedz(zadanie &x)
-{
-    for (int i=0; i<4; i++) {
-        cout<<"Odpowiedz "<<i+1<<": ";
-        getline(cin, x.odpowiedzi[i].tresc);
-    }
-}
-
-void input_odpowiedz(zadanie &x, int i)
-{
-        cout<<"Odpowiedz "<<i+1<<": ";
-        getline(cin, x.odpowiedzi[i].tresc);
-}
-
-bool input_prawidlowa(zadanie &x)
-{
-    int prawidlowa;
-    cout << "Prawidlowa odpowiedz (1,2,3,4)";
-    while(cin >> prawidlowa) {
-        if (prawidlowa > 0 && prawidlowa < 5) {
-            x.odpowiedzi[prawidlowa-1].prawidlowa = true;
-            return true;
-        }
-        else cout << "Nieprawidlowy znak - dozwolone tylko 1, 2, 3, 4: ";
-    }
-    return false;
-}
-
 void base_menu()
 {
     cout<<"Otwieranie bazy...";
@@ -81,4 +32,142 @@ void base_menu()
                 break;
         }
     }
+}
+
+void add_question(fstream &baza)
+{
+    zadanie temp;
+    cout<<"Dodawanie pytania do bazy."<<endl;
+    input_tresc(temp);
+    input_odpowiedz(temp);
+    input_prawidlowa(temp);
+    cout<<"Dodawanie pytania do bazy...";
+    baza.seekp(0, ios::end);
+    baza<<endl<<temp.pytanie<<";";
+    for (const auto& i : temp.odpowiedzi) {
+        if (i.prawidlowa)
+            baza<<"~";
+        baza<<i.tresc<<";";
+    }
+
+    cout<<"Pytanie dodane."<<endl;
+}
+
+void input_tresc(zadanie &x)
+{
+    cout<<"Tresc pytania: ";
+    cin.ignore(1000, '\n');
+    getline(cin, x.pytanie);
+}
+
+void input_odpowiedz(zadanie &x)
+{
+    for (int i=0; i<4; i++) {
+        cout<<"Odpowiedz "<<i+1<<": ";
+        getline(cin, x.odpowiedzi[i].tresc);
+    }
+}
+
+void input_odpowiedz(zadanie &x, int i)
+{
+        cout<<"Odpowiedz "<<i+1<<": ";
+        getline(cin, x.odpowiedzi[i].tresc);
+}
+
+bool input_prawidlowa(zadanie &x)
+{
+    int prawidlowa;
+    cout << "Prawidlowa odpowiedz (1,2,3,4)";
+    while(cin >> prawidlowa) {
+        if (prawidlowa > 0 && prawidlowa < 5) {
+            x.odpowiedzi[prawidlowa-1].prawidlowa = true;
+            return true;
+        }
+        else cout << "Nieprawidlowy znak - dozwolone tylko 1, 2, 3, 4: ";
+    }
+    return false;
+}
+
+void load_pytania(fstream &baza, vector<zadanie> &tempbaza)
+{
+    int seed = time(NULL);
+    cout<<"Ladowanie bazy... ";
+    unsigned int total=0;
+    string temp;
+    while (getline(baza, temp)) {
+        if (baza.eof())
+            break;
+        total++;
+    }
+    cout<<"znaleziono "<<total+1<<" pytan."<<endl;
+    baza.seekg(0);
+    baza.clear();
+    zadanie zad_temp;
+    cout<<"Ladowanie pytan do pamieci...";
+    while (getline(baza, temp)) {
+        istringstream iss(temp);
+        getline(iss,zad_temp.pytanie,';');
+        for (auto & i : zad_temp.odpowiedzi) {
+            getline(iss, i.tresc, ';');
+            if (i.tresc[0] == '~'){
+                i.tresc.erase(0,1);
+                i.prawidlowa = true;
+            }
+            else i.prawidlowa = false;
+        }
+        //cout<<"Wczytano pytanie z pliku...";
+        tempbaza.push_back(zad_temp);
+        cout<<"wczytano do pamieci."<<endl;
+    }
+    if (total == tempbaza.size())
+        cout<<"Wszystkie pytania zaladowano"<<endl;
+}
+
+void edit_baza(fstream &baza)
+{
+    vector<zadanie> temp;
+    load_pytania(baza, temp);
+    int pytanie = 0;
+    for (int i=0; i<temp.size(); i++){
+        cout<<i+1<<": "<<temp[i].pytanie<<endl;
+    }
+    do {
+        cout << "Wybierz pytanie: ";
+        cin >> pytanie;
+        pytanie-=1;
+        if (pytanie>=temp.size())
+            cout<<"Nieprawidlowy wybor."<<endl;
+    }while (pytanie >= temp.size());
+    display_zadanie(temp[pytanie]);
+    do{
+        cout<<"1 - edytuj tresc pytania"<<endl
+            <<"2 - edytuj tresc odpowiedzi"<<endl
+            <<"3 - edytuj prawidlowa odpowiedz"<<endl
+            <<"4 - usun pytanie"<<endl
+            <<"0 - powrot"<<endl;
+        cout<<"Wybor: "; cin>>pytanie;
+        switch(pytanie){
+            case 1:
+                input_tresc(temp[pytanie]);
+                break;
+            case 2:
+                int odpowiedz;
+                cout<<"Ktora odpowiedz chcesz edytowac? (1-4)";
+                cin>>odpowiedz;
+                if (odpowiedz<=4 && odpowiedz>=1)
+                    input_odpowiedz(temp[pytanie], (odpowiedz-1));
+                break;
+            case 3:
+                input_prawidlowa(temp[pytanie]);
+                break;
+            case 4:
+                break;
+            case 0:
+                cout<<"delet"<<endl;
+                break;
+            default:
+                cout<<"Nieprawidlowy wybor."<<endl;
+                break;
+        }
+    }while (pytanie!=0);
 }

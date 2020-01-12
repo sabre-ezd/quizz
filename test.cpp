@@ -12,12 +12,14 @@ void start_test()
         display_zadanie(i);
         temp.pytanie = i;
         temp.input = input_zadanie(i);
-        if (i.odpowiedzi[temp.input].prawidlowa)
-        {   cout<<"dobrze"<<endl;
-            prawidlowe.push_back(temp);}
-        else
-        {cout<<"zle"<<endl;
-            bledne.push_back(temp);}
+        if (i.odpowiedzi[temp.input].prawidlowa) {
+            cout<<"dobrze"<<endl;
+            prawidlowe.push_back(temp);
+        }
+        else {
+            cout<<"zle"<<endl;
+            bledne.push_back(temp);
+        }
     }
 //1
 // test_summary(test, prawidlowe, bledne);
@@ -41,47 +43,21 @@ void maszyna_losujaca(vector<zadanie> &test)
     cout<<"zakonczono."<<endl;
     cout<<"Podaj liczbe pytan: ";
     int pytania; cin>>pytania;
-    cout<<"Ladowanie bazy... ";
-    unsigned int total=0;
     vector<zadanie> tempbaza;
-    string temp;
-    while (getline(baza, temp)) {
-        if (baza.eof())
-            break;
-        total++;
+    load_pytania(baza, tempbaza);
+    if (tempbaza.size()<pytania){
+        cout<<"Zadana ilosc zadan jest wieksza niz zawartosc bazy - wczytuje wszystkie pytania..."<<endl;
+        pytania = tempbaza.size();
     }
-    cout<<"znaleziono "<<total+1<<" pytan."<<endl;
-    baza.seekg(0);
-    baza.clear();
-    zadanie zad_temp;
-    cout<<"Ladowanie pytan do pamieci...";
-    while (getline(baza, temp)) {
-        istringstream iss(temp);
-        getline(iss,zad_temp.pytanie,';');
-        for (auto & i : zad_temp.odpowiedzi) {
-            getline(iss, i.tresc, ';');
-            if (i.tresc[0] == '~'){
-                i.tresc.erase(0,1);
-                i.prawidlowa = true;
-            }
-        }
-        cout<<"Wczytano pytanie z pliku...";
-        shuffle(begin(zad_temp.odpowiedzi), end(zad_temp.odpowiedzi), default_random_engine(seed));
-        tempbaza.push_back(zad_temp);
-        cout<<"wczytano do pamieci."<<endl;
-    }
-    if (pytania == tempbaza.size())
-        cout<<"Wszystkie pytania zaladowano"<<endl;
     cout<<"Losowanie..."<<endl;
     for (int i=0; i<pytania; i++){
         int randomed = rand()%pytania;
         test.push_back(tempbaza[randomed]);
+        shuffle(begin(test.back().odpowiedzi), end(test.back().odpowiedzi), default_random_engine(seed));
         tempbaza.erase(tempbaza.begin()+randomed);
         cout<<"\rProgress: "<<i+1<<"/"<<pytania<<flush;
     }
-    // TODO: zwolnic pamiec ze wszystkimi pytaniami
     vector<zadanie>().swap(tempbaza);
-
 }
 
 

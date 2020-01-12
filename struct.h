@@ -17,7 +17,7 @@ using namespace std;
 struct odpowiedz
 {
     string tresc;
-    bool prawidlowa= false;
+    bool prawidlowa;
 };
 
 
@@ -38,6 +38,7 @@ void main_menu();
 void base_menu();
 void start_test();
 void maszyna_losujaca(vector<zadanie> &test);
+void input_tresc(zadanie &x);
 void input_odpowiedz(zadanie &x);
 bool input_prawidlowa(zadanie &x);
 void add_question(fstream &baza);
@@ -45,6 +46,6 @@ void display_zadanie(const zadanie& x);
 int input_zadanie(zadanie& x);
 int score_zadanie(zadanie& x, char odpowiedz);
 void test_summary(vector<zadanie> test, vector<klucz_odpowiedzi> prawidlowe, vector<klucz_odpowiedzi> bledne);
-
+void load_pytania(fstream &baza, vector<zadanie> &tempbaza);
 
 #endif //QUIZZ_STRUCT_H
