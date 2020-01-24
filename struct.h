@@ -23,21 +23,21 @@ struct odpowiedz
 
 struct zadanie
 {
-    string pytanie;
+    string tresc_pytanie;
     array<odpowiedz, 4> odpowiedzi;
 };
 
 struct klucz_odpowiedzi
 {
-    zadanie pytanie;
+    zadanie zadanie;
     int input{};
 };
 
 // Declarations
 void main_menu();
 void base_menu();
-void start_test();
-void maszyna_losujaca(vector<zadanie> &test);
+void start_test(vector<zadanie> test);
+void maszyna_losujaca(vector<zadanie> &test, int pytania = 0, const string& name="baza.txt");
 void input_tresc(zadanie &x);
 void input_odpowiedz(zadanie &x);
 bool input_prawidlowa(zadanie &x);
@@ -45,7 +45,9 @@ void add_question(fstream &baza);
 void display_zadanie(const zadanie& x);
 int input_zadanie(zadanie& x);
 int score_zadanie(zadanie& x, char odpowiedz);
-void test_summary(vector<zadanie> test, vector<klucz_odpowiedzi> prawidlowe, vector<klucz_odpowiedzi> bledne);
+void test_summary(const vector<zadanie>& test, const vector<klucz_odpowiedzi>& prawidlowe, const vector<klucz_odpowiedzi>& bledne);
+void zadanie_summary(const vector<klucz_odpowiedzi>& rozwiazane);
 void load_pytania(fstream &baza, vector<zadanie> &tempbaza);
+void edit_baza(fstream &baza);
 
 #endif //QUIZZ_STRUCT_H

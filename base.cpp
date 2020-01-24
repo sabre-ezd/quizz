@@ -20,7 +20,7 @@ void base_menu()
                 add_question(baza);
                 break;
             case 2:
-                // TODO: Edit questions
+                edit_baza(baza);
                 break;
             case 0:
                 cout<<"Zamykanie bazy...";
@@ -43,7 +43,7 @@ void add_question(fstream &baza)
     input_prawidlowa(temp);
     cout<<"Dodawanie pytania do bazy...";
     baza.seekp(0, ios::end);
-    baza<<endl<<temp.pytanie<<";";
+    baza << endl << temp.tresc_pytanie << ";";
     for (const auto& i : temp.odpowiedzi) {
         if (i.prawidlowa)
             baza<<"~";
@@ -57,7 +57,7 @@ void input_tresc(zadanie &x)
 {
     cout<<"Tresc pytania: ";
     cin.ignore(1000, '\n');
-    getline(cin, x.pytanie);
+    getline(cin, x.tresc_pytanie);
 }
 
 void input_odpowiedz(zadanie &x)
@@ -90,7 +90,6 @@ bool input_prawidlowa(zadanie &x)
 
 void load_pytania(fstream &baza, vector<zadanie> &tempbaza)
 {
-    int seed = time(NULL);
     cout<<"Ladowanie bazy... ";
     unsigned int total=0;
     string temp;
@@ -106,7 +105,7 @@ void load_pytania(fstream &baza, vector<zadanie> &tempbaza)
     cout<<"Ladowanie pytan do pamieci...";
     while (getline(baza, temp)) {
         istringstream iss(temp);
-        getline(iss,zad_temp.pytanie,';');
+        getline(iss, zad_temp.tresc_pytanie, ';');
         for (auto & i : zad_temp.odpowiedzi) {
             getline(iss, i.tresc, ';');
             if (i.tresc[0] == '~'){
@@ -129,7 +128,7 @@ void edit_baza(fstream &baza)
     load_pytania(baza, temp);
     int pytanie = 0;
     for (int i=0; i<temp.size(); i++){
-        cout<<i+1<<": "<<temp[i].pytanie<<endl;
+        cout <<i+1 << ": " << temp[i].tresc_pytanie << endl;
     }
     do {
         cout << "Wybierz pytanie: ";
@@ -156,6 +155,7 @@ void edit_baza(fstream &baza)
                 cin>>odpowiedz;
                 if (odpowiedz<=4 && odpowiedz>=1)
                     input_odpowiedz(temp[pytanie], (odpowiedz-1));
+                else cout<<"Nieprawidlowy wybor. Powrot..."<<endl;
                 break;
             case 3:
                 input_prawidlowa(temp[pytanie]);
