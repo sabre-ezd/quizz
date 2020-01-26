@@ -4,7 +4,7 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    if (argc == 0) {
+    if (argc == 1) {
         if (!filesystem::exists("baza.txt")) {
             cout << "Nie znaleziono bazy. Tworzenie...";
             fstream plik;
@@ -15,10 +15,14 @@ int main(int argc, char* argv[]) {
         main_menu();
         return 0;
     }
-    else if (argc == 1){
+    else if (argc == 2){
         cout<<"TRYB EGZAMINU"<<endl;
         init_test(argv[0], true);
         return 0;
+    }
+    else{
+        cout<<"too much launch arguments."<<endl;
+        return 1;
     }
 }
 

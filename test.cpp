@@ -50,8 +50,10 @@ void test_summary(const vector<zadanie>& test, const vector<klucz_odpowiedzi>& p
             case '1':
                 zadanie_summary(prawidlowe);
                 break;
-            case '0':
+            case '2':
                 zadanie_summary(bledne);
+                return;
+            case '0':
                 return;
             default:
                 cout<<"Nieprawidlowy wybor."<<endl;
@@ -62,11 +64,11 @@ void test_summary(const vector<zadanie>& test, const vector<klucz_odpowiedzi>& p
 
 void zadanie_summary(const vector<klucz_odpowiedzi>& rozwiazane)
 {
-    for (unsigned int i=0; i < rozwiazane.size(); i++){
-        cout <<i+1 << ". " << rozwiazane[i].zadanie.tresc_pytanie << endl;
-    }
     int wybor=0;
     do{
+        for (unsigned int i=0; i < rozwiazane.size(); i++){
+            cout <<i+1 << ". " << rozwiazane[i].zadanie.tresc_pytanie << endl;
+        }
         cout<<"Pytanie do sprawdzenia(0 by wyjsc): "; cin>>wybor;
         if (wybor==0)
             continue;
@@ -74,7 +76,7 @@ void zadanie_summary(const vector<klucz_odpowiedzi>& rozwiazane)
             cout<<"Nieprawidlowy wybor"<<endl;
         else{
             display_zadanie(rozwiazane[wybor - 1].zadanie);
-            cout << "Twoja odpowiedz: " << rozwiazane[wybor - 1].zadanie.odpowiedzi[rozwiazane[wybor - 1].input].tresc;
+            cout << "Twoja odpowiedz: " << rozwiazane[wybor - 1].zadanie.odpowiedzi[rozwiazane[wybor - 1].input].tresc<<endl;
             cout << "Prawidlowa odpowiedz: ";
             for (auto& i:rozwiazane[wybor-1].zadanie.odpowiedzi){
                 if (i.prawidlowa){

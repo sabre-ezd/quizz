@@ -10,10 +10,15 @@ void base_menu()
         return;
     }
     cout<<"zakonczono."<<endl;
+    vector<zadanie> temp;
+    load_pytania(baza, temp);
     while(cout<<"1 - Dodaj pytanie"<<endl
             <<"2 - Edytuj pytanie"<<endl
+            <<"9 - Wyswietl wszystkie "<<endl
             <<"0 - Powrot"<<endl
             <<"Wybor: "){
+        baza.clear();
+        baza.seekg(0);
         int wybor; cin>>wybor;
         switch (wybor){
             case 1:
@@ -21,12 +26,26 @@ void base_menu()
                 break;
             case 2:
                 edit_baza(baza);
-                break;
-            case 0:
-                cout<<"Zamykanie bazy...";
-                baza.close();
-                cout<<"zamknieto. Powrot..."<<endl;
                 return;
+            case 9:
+                for (int i=0; i<temp.size(); i++){
+                    cout<<i+1<<". "<<temp[i].tresc_pytanie<<endl;
+                }
+                cout<<endl;
+                break;
+            case 0: {
+                cout << "Zamykanie bazy...";
+                baza.close();
+                fstream bufor;
+                bufor.open("temp.txt", ios::out);
+                for (auto& i:temp)
+                    write_question(bufor, i);
+                bufor.close();
+                remove("baza.txt");
+                rename("temp.txt", "baza.txt");
+                cout << "zamknieto. Powrot..." << endl;
+                return;
+            }
             default:
                 cout<<"Nieprawidlowy wybor."<<endl;
                 break;
@@ -34,23 +53,61 @@ void base_menu()
     }
 }
 
+void edit_menu(vector<zadanie> &temp, int pytanie) {
+    display_zadanie(temp[pytanie]);
+    do{
+        cout<<"1 - edytuj tresc pytania"<<endl
+            <<"2 - edytuj tresc odpowiedzi"<<endl
+            <<"3 - edytuj prawidlowa odpowiedz"<<endl
+            <<"4 - usun pytanie"<<endl
+            <<"0 - powrot"<<endl;
+        cout<<"Wybor: "; cin>>pytanie;
+        switch(pytanie){
+            case 1:
+                input_tresc(temp[pytanie]);
+                break;
+            case 2:
+                int odpowiedz;
+                cout<<"Ktora odpowiedz chcesz edytowac? (1-4)";
+                cin>>odpowiedz;
+                if (odpowiedz<=4 && odpowiedz>=1)
+                    input_odpowiedz(temp[pytanie], (odpowiedz-1));
+                else cout<<"Nieprawidlowy wybor. Powrot..."<<endl;
+                break;
+            case 3:
+                input_prawidlowa(temp[pytanie]);
+                break;
+            case 4:
+                temp.erase(temp.begin()+pytanie);
+                return;
+            case 0:
+                return;
+            default:
+                cout<<"Nieprawidlowy wybor."<<endl;
+                break;
+        }
+    }while (pytanie!=0);
+}
+
 void add_question(fstream &baza)
 {
     zadanie temp;
-    cout<<"Dodawanie pytania do bazy."<<endl;
     input_tresc(temp);
     input_odpowiedz(temp);
     input_prawidlowa(temp);
-    cout<<"Dodawanie pytania do bazy...";
+    write_question(baza, temp);
+    cout<<"Pytanie dodane."<<endl;
+}
+
+void write_question(fstream &baza, const zadanie &temp) {
     baza.seekp(0, ios::end);
-    baza << endl << temp.tresc_pytanie << ";";
+    baza << temp.tresc_pytanie << ";";
     for (const auto& i : temp.odpowiedzi) {
         if (i.prawidlowa)
             baza<<"~";
         baza<<i.tresc<<";";
     }
-
-    cout<<"Pytanie dodane."<<endl;
+    baza << endl;
 }
 
 void input_tresc(zadanie &x)
@@ -68,7 +125,7 @@ void input_odpowiedz(zadanie &x)
     }
 }
 
-void input_odpowiedz(zadanie &x, int i)
+void input_odpowiedz(zadanie &x, int i=0)
 {
         cout<<"Odpowiedz "<<i+1<<": ";
         getline(cin, x.odpowiedzi[i].tresc);
@@ -99,8 +156,8 @@ void load_pytania(fstream &baza, vector<zadanie> &tempbaza)
         total++;
     }
     cout<<"znaleziono "<<total+1<<" pytan."<<endl;
-    baza.seekg(0);
     baza.clear();
+    baza.seekg(0);
     zadanie zad_temp;
     cout<<"Ladowanie pytan do pamieci...";
     while (getline(baza, temp)) {
@@ -127,47 +184,17 @@ void edit_baza(fstream &baza)
     vector<zadanie> temp;
     load_pytania(baza, temp);
     int pytanie = 0;
-    for (int i=0; i<temp.size(); i++){
-        cout <<i+1 << ": " << temp[i].tresc_pytanie << endl;
-    }
     do {
-        cout << "Wybierz pytanie: ";
+        cout << "Wybierz pytanie(0 by wyjsc): ";
         cin >> pytanie;
+        if (pytanie == 0) {
+            return;
+        }
         pytanie-=1;
         if (pytanie>=temp.size())
             cout<<"Nieprawidlowy wybor."<<endl;
     }while (pytanie >= temp.size());
-    display_zadanie(temp[pytanie]);
-    do{
-        cout<<"1 - edytuj tresc pytania"<<endl
-            <<"2 - edytuj tresc odpowiedzi"<<endl
-            <<"3 - edytuj prawidlowa odpowiedz"<<endl
-            <<"4 - usun pytanie"<<endl
-            <<"0 - powrot"<<endl;
-        cout<<"Wybor: "; cin>>pytanie;
-        switch(pytanie){
-            case 1:
-                input_tresc(temp[pytanie]);
-                break;
-            case 2:
-                int odpowiedz;
-                cout<<"Ktora odpowiedz chcesz edytowac? (1-4)";
-                cin>>odpowiedz;
-                if (odpowiedz<=4 && odpowiedz>=1)
-                    input_odpowiedz(temp[pytanie], (odpowiedz-1));
-                else cout<<"Nieprawidlowy wybor. Powrot..."<<endl;
-                break;
-            case 3:
-                input_prawidlowa(temp[pytanie]);
-                break;
-            case 4:
-                break;
-            case 0:
-                cout<<"delet"<<endl;
-                break;
-            default:
-                cout<<"Nieprawidlowy wybor."<<endl;
-                break;
-        }
-    }while (pytanie!=0);
+    edit_menu(temp, pytanie);
 }
+
+
