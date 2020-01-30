@@ -213,8 +213,10 @@ void edit_exam() {
         if (pytanie == 0)
             continue;
         else if (pytanie > temp.size())
-            cout<<"Nie ma takiego pytania w bazie."<<endl;
+            cout << "Nie ma takiego pytania w bazie." << endl;
         else
-            write_question(plik,temp[pytanie-1]);
-    }while (pytanie != 0);
+            write_question(plik, temp[pytanie - 1]);
+    } while (pytanie != 0);
+    cout << "Zapisywanie..." << endl;
+    plik.close();
 }
