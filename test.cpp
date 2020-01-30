@@ -19,6 +19,10 @@ void start_test(vector<zadanie> test) {
     vector<klucz_odpowiedzi> prawidlowe;
     vector<klucz_odpowiedzi> bledne;
     klucz_odpowiedzi temp = {};
+    if (test.empty()) {
+        cout << "Brak pytan w tescie. Musisz dodac pytania zanim rozpoczniesz." << endl;
+        return;
+    }
     for (auto &i:test) {
         display_zadanie(i);
         temp.zadanie = i;
@@ -38,7 +42,8 @@ void start_test(vector<zadanie> test) {
 void test_summary(const vector<zadanie> &test, const vector<klucz_odpowiedzi> &prawidlowe,
                   const vector<klucz_odpowiedzi> &bledne) {
     char choice;
-    cout << "Wynik: " << prawidlowe.size() << "/" << test.size() << endl;
+    cout << "Wynik: " << prawidlowe.size() << "/" << test.size() << "=" << setprecision(4)
+         << ((float) prawidlowe.size() * 100.0 / test.size()) << "%" << endl;
     while (true) {
         cout << "1 - Poprawne odpowiedzi" << endl
              << "2 - Bledne odpowiedzi" << endl
@@ -110,7 +115,7 @@ void maszyna_losujaca(vector<zadanie> &test, int pytania, const string &name) {
     }
     cout << "Losowanie..." << endl;
     for (int i = 0; i < pytania; i++) {
-        int randomed = rand() % pytania;
+        int randomed = rand() % (int) tempbaza.size();
         test.push_back(tempbaza[randomed]);
         shuffle(begin(test.back().odpowiedzi), end(test.back().odpowiedzi), default_random_engine(seed));
         tempbaza.erase(tempbaza.begin() + randomed);

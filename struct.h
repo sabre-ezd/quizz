@@ -10,6 +10,7 @@
 #include <vector>
 #include <sstream>
 #include <cstdlib>
+#include <iomanip>
 #include <filesystem>
 #include <random>
 
@@ -17,7 +18,7 @@ using namespace std;
 
 struct odpowiedz {
     string tresc;
-    bool prawidlowa;
+    bool prawidlowa=false;
 };
 
 
@@ -43,32 +44,19 @@ void start_test(vector<zadanie> test);
 void maszyna_losujaca(vector<zadanie> &test, int pytania = 0, const string &name = "baza.txt");
 
 void input_tresc(zadanie &x);
-
 void input_odpowiedz(zadanie &x);
-
 bool input_prawidlowa(zadanie &x);
-
-void add_question(fstream &baza);
-
+zadanie add_question(fstream &baza);
 void display_zadanie(const zadanie &x);
-
 void input_odpowiedz(zadanie &x, int i);
-
 int input_zadanie(zadanie &x);
-
 int score_zadanie(zadanie &x, char odpowiedz);
-
 void test_summary(const vector<zadanie> &test, const vector<klucz_odpowiedzi> &prawidlowe,
                   const vector<klucz_odpowiedzi> &bledne);
-
 void zadanie_summary(const vector<klucz_odpowiedzi> &rozwiazane);
-
 void load_pytania(fstream &baza, vector<zadanie> &tempbaza);
-
-void edit_baza(fstream &baza);
-
+void edit_baza(vector<zadanie> temp);
 void write_question(fstream &baza, const zadanie &temp);
-
 void edit_menu(vector<zadanie> &temp, int pytanie);
 
 

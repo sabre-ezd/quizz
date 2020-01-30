@@ -23,11 +23,11 @@ void base_menu() {
         cin >> wybor;
         switch (wybor) {
             case 1:
-                add_question(baza);
+                temp.push_back(add_question(baza));
                 break;
             case 2:
-                edit_baza(baza);
-                return;
+                edit_baza(temp);
+                break;
             case 9:
                 for (int i = 0; i < temp.size(); i++) {
                     cout << i + 1 << ". " << temp[i].tresc_pytanie << endl;
@@ -82,8 +82,12 @@ void edit_menu(vector<zadanie> &temp, int pytanie) {
             case 4:
                 temp.erase(temp.begin() + pytanie);
                 return;
-            case 0:
+            case 0: {
+                zadanie x = temp[pytanie];
+                temp.erase(temp.begin()+pytanie);
+                temp.insert(temp.begin()+pytanie, x);
                 return;
+            }
             default:
                 cout << "Nieprawidlowy wybor." << endl;
                 break;
@@ -91,13 +95,14 @@ void edit_menu(vector<zadanie> &temp, int pytanie) {
     } while (pytanie != 0);
 }
 
-void add_question(fstream &baza) {
+zadanie add_question(fstream &baza) {
     zadanie temp;
     input_tresc(temp);
     input_odpowiedz(temp);
     input_prawidlowa(temp);
-    write_question(baza, temp);
     cout << "Pytanie dodane." << endl;
+    write_question(baza, temp);
+    return temp;
 }
 
 void write_question(fstream &baza, const zadanie &temp) {
@@ -131,7 +136,7 @@ void input_odpowiedz(zadanie &x, int i = 0) {
 
 bool input_prawidlowa(zadanie &x) {
     int prawidlowa;
-    cout << "Prawidlowa odpowiedz (1,2,3,4)";
+    cout << "Prawidlowa odpowiedz (1,2,3,4): ";
     while (cin >> prawidlowa) {
         if (prawidlowa > 0 && prawidlowa < 5) {
             x.odpowiedzi[prawidlowa - 1].prawidlowa = true;
@@ -150,7 +155,7 @@ void load_pytania(fstream &baza, vector<zadanie> &tempbaza) {
             break;
         total++;
     }
-    cout << "znaleziono " << total + 1 << " pytan." << endl;
+    cout << "znaleziono " << total << " pytan." << endl;
     baza.clear();
     baza.seekg(0);
     zadanie zad_temp;
@@ -173,9 +178,7 @@ void load_pytania(fstream &baza, vector<zadanie> &tempbaza) {
         cout << "Wszystkie pytania zaladowano" << endl;
 }
 
-void edit_baza(fstream &baza) {
-    vector<zadanie> temp;
-    load_pytania(baza, temp);
+void edit_baza(vector<zadanie> temp) {
     int pytanie = 0;
     do {
         cout << "Wybierz pytanie(0 by wyjsc): ";

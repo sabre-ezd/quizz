@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
         return 0;
     } else if (argc == 2) {
         cout << "TRYB EGZAMINU" << endl;
-        init_test(argv[0], true);
+        init_test(argv[1], true);
         return 0;
     } else {
         cout << "too much launch arguments." << endl;
