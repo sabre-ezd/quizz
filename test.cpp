@@ -27,13 +27,10 @@ void start_test(vector<zadanie> test) {
         display_zadanie(i);
         temp.zadanie = i;
         temp.input = input_zadanie(i);
-        if (i.odpowiedzi[temp.input].prawidlowa) {
-            cout << "dobrze" << endl;
+        if (i.odpowiedzi[temp.input].prawidlowa)
             prawidlowe.push_back(temp);
-        } else {
-            cout << "zle" << endl;
+        else
             bledne.push_back(temp);
-        }
     }
     test_summary(test, prawidlowe, bledne);
 
