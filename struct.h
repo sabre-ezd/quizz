@@ -34,15 +34,10 @@ struct klucz_odpowiedzi {
 
 // Declarations
 void main_menu();
-
 void base_menu();
-
 void edit_exam();
-
 void start_test(vector<zadanie> test);
-
 void maszyna_losujaca(vector<zadanie> &test, int pytania = 0, const string &name = "baza.txt");
-
 void input_tresc(zadanie &x);
 void input_odpowiedz(zadanie &x);
 bool input_prawidlowa(zadanie &x);

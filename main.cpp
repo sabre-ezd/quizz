@@ -10,6 +10,8 @@ int main(int argc, char *argv[]) {
             cout << "Nie znaleziono bazy. Tworzenie...";
             fstream plik;
             plik.open("baza.txt", ios::out);
+            cout<<"Dodawanie pierwszego pytania:"<<endl;
+            add_question(plik);
             plik.close();
             cout << "zakonczono." << endl;
         }

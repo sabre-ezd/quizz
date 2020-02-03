@@ -84,8 +84,8 @@ void edit_menu(vector<zadanie> &temp, int pytanie) {
                 return;
             case 0: {
                 zadanie x = temp[pytanie];
-                temp.erase(temp.begin()+pytanie);
-                temp.insert(temp.begin()+pytanie, x);
+                temp.erase(temp.begin() + pytanie);
+                temp.insert(temp.begin() + pytanie, x);
                 return;
             }
             default:
@@ -136,7 +136,7 @@ void input_odpowiedz(zadanie &x, int i = 0) {
 
 bool input_prawidlowa(zadanie &x) {
     int prawidlowa;
-    cout << "Prawidlowa odpowiedz (1,2,3,4): ";
+    cout << "Prawidlowa odpowiedz (1,2,3,4): 1`";
     while (cin >> prawidlowa) {
         if (prawidlowa > 0 && prawidlowa < 5) {
             x.odpowiedzi[prawidlowa - 1].prawidlowa = true;
@@ -170,9 +170,7 @@ void load_pytania(fstream &baza, vector<zadanie> &tempbaza) {
                 i.prawidlowa = true;
             } else i.prawidlowa = false;
         }
-        //cout<<"Wczytano pytanie z pliku...";
         tempbaza.push_back(zad_temp);
-        cout << "wczytano do pamieci." << endl;
     }
     if (total == tempbaza.size())
         cout << "Wszystkie pytania zaladowano" << endl;
@@ -208,7 +206,7 @@ void edit_exam() {
     cin.ignore(1000, '\n');
     getline(cin, nazwa);
     fstream plik;
-    plik.open(nazwa.c_str(), ios::out);
+    plik.open((nazwa+".txt").c_str(), ios::out);
     cout << endl;
     do {
         cout << "Wpisz nr pytania ktore chcesz dodac do egzaminu (0 aby wyjsc)";

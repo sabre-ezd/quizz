@@ -33,7 +33,6 @@ void start_test(vector<zadanie> test) {
             bledne.push_back(temp);
     }
     test_summary(test, prawidlowe, bledne);
-
 }
 
 void test_summary(const vector<zadanie> &test, const vector<klucz_odpowiedzi> &prawidlowe,
@@ -53,7 +52,7 @@ void test_summary(const vector<zadanie> &test, const vector<klucz_odpowiedzi> &p
                 break;
             case '2':
                 zadanie_summary(bledne);
-                return;
+                break;
             case '0':
                 return;
             default:
