@@ -50,7 +50,7 @@ void test_summary(const vector<zadanie> &test, const vector<klucz_odpowiedzi> &p
                   const vector<klucz_odpowiedzi> &bledne);
 void zadanie_summary(const vector<klucz_odpowiedzi> &rozwiazane);
 void load_pytania(fstream &baza, vector<zadanie> &tempbaza);
-void edit_baza(vector<zadanie> temp);
+void edit_baza(vector<zadanie> &temp);
 void write_question(fstream &baza, const zadanie &temp);
 void edit_menu(vector<zadanie> &temp, int pytanie);
 

@@ -63,8 +63,9 @@ void edit_menu(vector<zadanie> &temp, int pytanie) {
              << "4 - usun pytanie" << endl
              << "0 - powrot" << endl;
         cout << "Wybor: ";
-        cin >> pytanie;
-        switch (pytanie) {
+        int wybor;
+        cin >> wybor;
+        switch (wybor) {
             case 1:
                 input_tresc(temp[pytanie]);
                 break;
@@ -82,12 +83,8 @@ void edit_menu(vector<zadanie> &temp, int pytanie) {
             case 4:
                 temp.erase(temp.begin() + pytanie);
                 return;
-            case 0: {
-                zadanie x = temp[pytanie];
-                temp.erase(temp.begin() + pytanie);
-                temp.insert(temp.begin() + pytanie, x);
+            case 0:
                 return;
-            }
             default:
                 cout << "Nieprawidlowy wybor." << endl;
                 break;
@@ -131,12 +128,13 @@ void input_odpowiedz(zadanie &x) {
 
 void input_odpowiedz(zadanie &x, int i = 0) {
     cout << "Odpowiedz " << i + 1 << ": ";
+    cin.ignore(1000, '\n');
     getline(cin, x.odpowiedzi[i].tresc);
 }
 
 bool input_prawidlowa(zadanie &x) {
     int prawidlowa;
-    cout << "Prawidlowa odpowiedz (1,2,3,4): 1`";
+    cout << "Prawidlowa odpowiedz (1,2,3,4): ";
     while (cin >> prawidlowa) {
         if (prawidlowa > 0 && prawidlowa < 5) {
             x.odpowiedzi[prawidlowa - 1].prawidlowa = true;
@@ -176,7 +174,7 @@ void load_pytania(fstream &baza, vector<zadanie> &tempbaza) {
         cout << "Wszystkie pytania zaladowano" << endl;
 }
 
-void edit_baza(vector<zadanie> temp) {
+void edit_baza(vector<zadanie> &temp) {
     int pytanie = 0;
     do {
         cout << "Wybierz pytanie(0 by wyjsc): ";
